@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
         public ActionResult Echo
                 (
                      [ModelBinder(typeof(JTokenModelBinder))]
-                        JToken parameters = null!
+                        JToken parameters //= null!
                 )
         {
             return
@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult> EchoAsync
                 (
                      [ModelBinder(typeof(JTokenModelBinder))]
-                        JToken parameters = null!
+                        JToken parameters //= null!
                 )
         {
             return
