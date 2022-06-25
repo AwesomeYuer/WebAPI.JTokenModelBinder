@@ -18,3 +18,9 @@ POST  https://localhost:7095/api/admin/echo?a=111&b=2 HTTP/1.1
 content-type: application/json
 
 {a:[1,"111"]}
+
+
+###
+
+GET  https://localhost:7095/api/admin/echo/async/sadasd/asdasd?{a:19} HTTP/1.1
+
