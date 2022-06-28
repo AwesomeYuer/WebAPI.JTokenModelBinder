@@ -58,6 +58,7 @@
                                         , TRouteAttribute routeAttribute
                                     )
         {
+            //四选一有Bug
             var r = (actionConstraintContext.Candidates.Count == 1);
             var httpContext = actionConstraintContext.RouteContext.HttpContext;
             var request = httpContext.Request;
