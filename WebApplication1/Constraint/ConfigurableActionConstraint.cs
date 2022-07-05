@@ -58,39 +58,24 @@
                                         , TRouteAttribute routeAttribute
                                     )
         {
-            //四选一有Bug
-            var r = (actionConstraintContext.Candidates.Count == 1);
-            var httpContext = actionConstraintContext.RouteContext.HttpContext;
-            var request = httpContext.Request;
-            var currentCandidateAction = actionConstraintContext
-                                                        .CurrentCandidate
-                                                        .Action;
-            var currentControllerActionDescriptor = ((ControllerActionDescriptor) currentCandidateAction);
-            if (!r)
+            var r = false;
+            if (actionConstraintContext.Candidates.Count > 1)
             {
-                var l = currentControllerActionDescriptor
+                var httpContext = actionConstraintContext.RouteContext.HttpContext;
+                var request = httpContext.Request;
+                var currentCandidateAction = actionConstraintContext
+                                                            .CurrentCandidate
+                                                            .Action;
+                var currentControllerActionDescriptor = ((ControllerActionDescriptor) currentCandidateAction);
+                var methodParamsLength = currentControllerActionDescriptor
                                                     .MethodInfo
                                                     .GetParameters()
                                                     .Length;
-                bool hasValue;
-                if (request.Method == "GET")
-                {
-                    hasValue= request.QueryString.HasValue;
-                }
-                else
-                {
-                    hasValue = (request.HasFormContentType);
-                }
-                r = (hasValue && l > 0) || (!hasValue && l <= 0);
-            }
-            if (r)
-            {
-                r = false;
                 var currentControllerType = currentControllerActionDescriptor.ControllerTypeInfo.AsType();
                 var routeContext = actionConstraintContext.RouteContext;
 
                 var actionRoutePath = string.Empty;
-                if 
+                if
                     (
                         routeContext
                                 .RouteData
@@ -104,31 +89,74 @@
                 {
                     if (@value != null)
                     {
-                        actionRoutePath = @value.ToString();
+                        actionRoutePath = @value.ToString()!.ToLower();
                     }
                 }
-                if
-                    (
-                        typeof(TControllerType)
-                                .IsAssignableFrom(currentControllerType)
-                        &&
-                        !actionRoutePath!
-                                .IsNullOrEmptyOrWhiteSpace()
-                    )
-                {
-                    var isAsyncExecuting = currentControllerActionDescriptor
+                var urlPath = request.Path.ToString().ToLower();
+                var isAsyncExecutingByRequest
+                            = urlPath.Contains("/async/", StringComparison.OrdinalIgnoreCase);
+                var isAsyncExecuting = currentControllerActionDescriptor
                                                                         .MethodInfo
                                                                         .IsAsync();
-                    var url = request.Path.ToString();
-                    var isAsyncExecutingByRequest
-                            = url.Contains("/async/", StringComparison.OrdinalIgnoreCase);
-                    r =
-                        (
-                            isAsyncExecutingByRequest
-                            ==
-                            isAsyncExecuting
-                        );
+                if (typeof(TControllerType).IsAssignableFrom(currentControllerType))
+                {
+                    if (request.Method == "GET")
+                    {
+                        var hasQueryString = request.QueryString.HasValue;
+                        if
+                            (
+                                hasQueryString
+                                && methodParamsLength > 0
+                                && isAsyncExecutingByRequest == isAsyncExecuting
+                            )
+                        {
+                            if
+                                (
+                                    !actionRoutePath!.IsNullOrEmptyOrWhiteSpace()
+                                    &&
+                                    urlPath.EndsWith(actionRoutePath)
+                                )
+                            {
+                                r = true;
+                            }
+                            else if (actionRoutePath!.IsNullOrEmptyOrWhiteSpace())
+                            {
+                                r = true;
+                            }
+                            
+                        }
+                    }
+                    else
+                    {
+                        var hasBody = (request.HasFormContentType || request.HasJsonContentType());
+                        if
+                            (
+                                hasBody
+                                && methodParamsLength > 0
+                                && isAsyncExecutingByRequest == isAsyncExecuting
+                            )
+                        {
+                            if
+                                (
+                                    !actionRoutePath!.IsNullOrEmptyOrWhiteSpace()
+                                    &&
+                                    urlPath.EndsWith(actionRoutePath)
+                                )
+                            {
+                                r = true;
+                            }
+                            else if (actionRoutePath!.IsNullOrEmptyOrWhiteSpace())
+                            {
+                                r = true;
+                            }
+                        }
+                    }
+
                 }
+            }
+            else
+            {
+                r = true;
             }
             return
                     r;
