@@ -95,9 +95,9 @@
                 var urlPath = request.Path.ToString().ToLower();
                 var isAsyncExecutingByRequest
                             = urlPath.Contains("/async/", StringComparison.OrdinalIgnoreCase);
-                var isAsyncExecuting = currentControllerActionDescriptor
-                                                                        .MethodInfo
-                                                                        .IsAsync();
+                var isAsyncMethod = currentControllerActionDescriptor
+                                                                .MethodInfo
+                                                                .IsAsync();
                 if (typeof(TControllerType).IsAssignableFrom(currentControllerType))
                 {
                     if (request.Method == "GET")
@@ -107,7 +107,7 @@
                             (
                                 hasQueryString
                                 && methodParamsLength > 0
-                                && isAsyncExecutingByRequest == isAsyncExecuting
+                                && isAsyncExecutingByRequest == isAsyncMethod
                             )
                         {
                             if
@@ -123,7 +123,16 @@
                             {
                                 r = true;
                             }
-                            
+
+                        }
+                        else if
+                            (
+                                !hasQueryString
+                                && methodParamsLength == 0
+                                && isAsyncExecutingByRequest == isAsyncMethod
+                            )
+                        {
+                            r = true;
                         }
                     }
                     else
@@ -133,7 +142,7 @@
                             (
                                 hasBody
                                 && methodParamsLength > 0
-                                && isAsyncExecutingByRequest == isAsyncExecuting
+                                && isAsyncExecutingByRequest == isAsyncMethod
                             )
                         {
                             if
@@ -149,6 +158,15 @@
                             {
                                 r = true;
                             }
+                        }
+                        else if
+                            (
+                                !hasBody
+                                && methodParamsLength == 0
+                                && isAsyncExecutingByRequest == isAsyncMethod
+                            )
+                        {
+                            r = true;
                         }
                     }
 
