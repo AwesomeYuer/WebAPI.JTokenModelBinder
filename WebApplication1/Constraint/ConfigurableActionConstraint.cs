@@ -114,7 +114,7 @@
                                 (
                                     !actionRoutePath!.IsNullOrEmptyOrWhiteSpace()
                                     &&
-                                    urlPath.EndsWith(actionRoutePath,StringComparison.OrdinalIgnoreCase)
+                                    urlPath.EndsWith(actionRoutePath, StringComparison.OrdinalIgnoreCase)
                                 )
                             {
                                 r = true;
