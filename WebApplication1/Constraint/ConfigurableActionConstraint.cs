@@ -92,7 +92,7 @@
                         actionRoutePath = @value.ToString()!.ToLower();
                     }
                 }
-                var urlPath = request.Path.ToString().ToLower();
+                var urlPath = request.Path.ToString();
                 var isAsyncExecutingByRequest
                             = urlPath.Contains("/async/", StringComparison.OrdinalIgnoreCase);
                 var isAsyncMethod = currentControllerActionDescriptor
@@ -114,7 +114,7 @@
                                 (
                                     !actionRoutePath!.IsNullOrEmptyOrWhiteSpace()
                                     &&
-                                    urlPath.EndsWith(actionRoutePath)
+                                    urlPath.EndsWith(actionRoutePath,StringComparison.OrdinalIgnoreCase)
                                 )
                             {
                                 r = true;
