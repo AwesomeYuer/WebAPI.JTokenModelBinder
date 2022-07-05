@@ -10,7 +10,7 @@ GET  https://localhost:7095/api/admin/echo/sadasd/asdasd HTTP/1.1
 
 ###
 
-GET  https://localhost:7095/api/admin/echo?1:2 HTTP/1.1
+GET  https://localhost:7095/api/admin/echo/async/ HTTP/1.1
 
 
 ###
