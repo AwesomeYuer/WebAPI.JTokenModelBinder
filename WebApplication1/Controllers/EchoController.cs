@@ -47,9 +47,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [HttpPut]
         [Route("Echo/{* }")]
-        public ActionResult Echo
-        (
-        )
+        public ActionResult Echo()
         {
             return
                 new JsonResult
@@ -94,9 +92,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [HttpPut]
         [Route("Echo/{* }")]
-        public async Task<ActionResult> EchoAsync
-                (
-                )
+        public async Task<ActionResult> EchoAsync()
         {
             return
                 await
