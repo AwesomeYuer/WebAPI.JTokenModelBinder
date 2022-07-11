@@ -50,7 +50,7 @@ sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0A
 ###
 #已修复四选一有Bug
 # AmbiguousMatchException
-POST  https://localhost:7095/api/admin/echo HTTP/1.1
+DELETE  https://localhost:7095/api/admin/echo HTTP/1.1
 content-type: application/x-www-form-urlencoded
 
 sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0Aselect+'%22111%22'+as+F%2C+*%0Afrom%0Asys.objects%0A%0Aselect+'%22222%22'+as+F%2C+*%0Afrom%0Asys.objects&rowcount=100
@@ -58,7 +58,7 @@ sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0A
 
 ###
 
-POST  https://localhost:7095/api/admin/echo?a=111&b=2 HTTP/1.1
+PUT  https://localhost:7095/api/admin/echo?a=111&b=2 HTTP/1.1
 content-type: application/json
 
 {a:[1,"111"]}
