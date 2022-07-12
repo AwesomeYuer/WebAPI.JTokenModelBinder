@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
         {
             return
                 Request
-                    .EchoRequestJsonResult
+                    .EchoJTokenRequestJsonResult
                         (parameters);
         }
 
@@ -77,7 +77,7 @@ namespace WebApplication1.Controllers
                         .FromResult
                             (
                                 Request
-                                    .EchoRequestJsonResult
+                                    .EchoJTokenRequestJsonResult
                                         (parameters)
                             );
                 
