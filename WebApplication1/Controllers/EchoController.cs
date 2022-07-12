@@ -3,7 +3,8 @@ namespace WebApplication1.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json.Linq;
     using Microshaoft.WebApi.ModelBinders;
-    using Microshaoft; 
+    using Microshaoft;
+    using Microshaoft.Web;
 
     [ConstrainedRoute("api/[controller]")]
     [ApiController]
@@ -32,10 +33,9 @@ namespace WebApplication1.Controllers
                 )
         {
             return
-                new JsonResult
-                    (
-                        parameters
-                    );
+                Request
+                    .EchoRequestJsonResult
+                        (parameters);
         }
 
 
@@ -50,9 +50,9 @@ namespace WebApplication1.Controllers
         public ActionResult Echo()
         {
             return
-                new JsonResult
+                Echo
                     (
-                        null
+                        null!
                     );
         }
 
@@ -76,10 +76,9 @@ namespace WebApplication1.Controllers
                     Task
                         .FromResult
                             (
-                                new JsonResult
-                                    (
-                                        parameters
-                                    )
+                                Request
+                                    .EchoRequestJsonResult
+                                        (parameters)
                             );
                 
         }

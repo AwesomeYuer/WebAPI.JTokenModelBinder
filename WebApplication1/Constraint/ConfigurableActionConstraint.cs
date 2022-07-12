@@ -93,8 +93,10 @@
                     }
                 }
                 var urlPath = request.Path.ToString();
-                var isAsyncExecutingByRequest
+                //=============================================================================
+                var isAsyncExecutingOnDemand
                             = urlPath.Contains("/async/", StringComparison.OrdinalIgnoreCase);
+                //=============================================================================
                 var isAsyncMethod = currentControllerActionDescriptor
                                                                 .MethodInfo
                                                                 .IsAsync();
@@ -107,7 +109,7 @@
                             (
                                 hasQueryString
                                 && methodParamsLength > 0
-                                && isAsyncExecutingByRequest == isAsyncMethod
+                                && isAsyncExecutingOnDemand == isAsyncMethod
                             )
                         {
                             if
@@ -129,7 +131,7 @@
                             (
                                 !hasQueryString
                                 && methodParamsLength == 0
-                                && isAsyncExecutingByRequest == isAsyncMethod
+                                && isAsyncExecutingOnDemand == isAsyncMethod
                             )
                         {
                             r = true;
@@ -137,12 +139,19 @@
                     }
                     else
                     {
-                        var hasBody = (request.HasFormContentType || request.HasJsonContentType());
+                        var hasContentType = 
+                                            (
+                                                request.HasFormContentType
+                                                ||
+                                                request.HasJsonContentType()
+                                            );
+                        var hasContentLength = request.ContentLength > 0;
                         if
                             (
-                                hasBody
+                                hasContentType
+                                && hasContentLength
                                 && methodParamsLength > 0
-                                && isAsyncExecutingByRequest == isAsyncMethod
+                                && isAsyncExecutingOnDemand == isAsyncMethod
                             )
                         {
                             if
@@ -161,9 +170,10 @@
                         }
                         else if
                             (
-                                !hasBody
+                                hasContentType
+                                && !hasContentLength
                                 && methodParamsLength == 0
-                                && isAsyncExecutingByRequest == isAsyncMethod
+                                && isAsyncExecutingOnDemand == isAsyncMethod
                             )
                         {
                             r = true;

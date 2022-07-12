@@ -17,6 +17,87 @@
 
     public static partial class HttpRequestHelper
     {
+        public static JsonResult EchoRequestJsonResult
+                        (
+                           this HttpRequest @this
+                            , JToken requestJTokenParameters
+                        )
+        {
+            return
+                new JsonResult
+                (
+                    new
+                    {
+                        WebApiRequestJTokenParameters = requestJTokenParameters
+                        ,
+                        Request = new
+                        {
+                            @this.ContentLength
+                                ,
+                            @this.ContentType
+                                ,
+                            @this.Cookies
+                                ,
+                            @this.HasFormContentType
+                                ,
+                            @this.Headers
+                                ,
+                            @this.Host
+                                ,
+                            @this.IsHttps
+                                ,
+                            @this.Method
+                                ,
+                            @this.Path
+                                ,
+                            @this.PathBase
+                                ,
+                            @this.Protocol
+                                ,
+                            @this.Query
+                                ,
+                            @this.QueryString
+                                ,
+                            @this.RouteValues
+                                ,
+                            @this.Scheme
+                        }
+                        ,
+                        HttpContext = new
+                        {
+                            Connection = new
+                            {
+                                RemoteIpAddress = @this
+                                                        .HttpContext
+                                                        .Connection
+                                                        .RemoteIpAddress!
+                                                        .ToString()
+                            }
+                                //, HttpContext.Items
+                                ,
+                            User = new
+                            {
+                                Claims = @this
+                                            .HttpContext
+                                            .User
+                                            .Claims
+                                            .ToArray()
+                                    ,
+                                Identity = new
+                                {
+                                    @this
+                                        .HttpContext
+                                        .User
+                                        .Identity!
+                                        .Name
+                                }
+                            }
+                        }
+                    }
+                );
+        }
+
+
         public static JsonResult NewJsonResult
                                 (
                                     int statusCode
@@ -211,13 +292,14 @@
             JToken jToken = null!;
             void requestFormBodyProcess()
             {
-                using var streamReader = new StreamReader(@this.Body);
-                var json = streamReader.ReadToEnd();
-                if 
+                var hasContentLength = @this.ContentLength > 0;
+                if
                     (
                         !@this.IsJsonRequest()
                         &&
                         @this.HasFormContentType
+                        &&
+                        hasContentLength
                     )
                 {
                     if (onFormProcessFuncAsync != null)
@@ -225,8 +307,10 @@
                         jToken = onFormProcessFuncAsync().Result;
                     }
                 }
-                else
+                else if (hasContentLength)
                 {
+                    using var streamReader = new StreamReader(@this.Body);
+                    var json = streamReader.ReadToEnd();
                     if (!json.IsNullOrEmptyOrWhiteSpace())
                     {
                         json.IsJson(out jToken, true);
