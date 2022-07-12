@@ -40,6 +40,8 @@
                                 ,
                             @this.HasFormContentType
                                 ,
+                            HasJsonContentType = @this.HasJsonContentType()
+                                ,
                             @this.Headers
                                 ,
                             @this.Host
@@ -57,6 +59,8 @@
                             @this.Query
                                 ,
                             @this.QueryString
+                                ,
+                            HasQueryStringValue = @this.QueryString.HasValue
                                 ,
                             @this.RouteValues
                                 ,
