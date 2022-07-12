@@ -5,6 +5,7 @@ namespace WebApplication1.Controllers
     using Microshaoft.WebApi.ModelBinders;
     using Microshaoft;
     using Microshaoft.Web;
+    using System.Reflection;
 
     [ConstrainedRoute("api/[controller]")]
     [ApiController]
@@ -32,6 +33,14 @@ namespace WebApplication1.Controllers
                         JToken parameters //= null!
                 )
         {
+            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
+            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
+            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
+            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
+            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
+            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
             return
                 Request
                     .EchoJTokenRequestJsonResult
@@ -49,6 +58,14 @@ namespace WebApplication1.Controllers
         [Route("Echo/{* }")]
         public ActionResult Echo()
         {
+            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
+            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
+            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
+            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
+            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
+            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
             return
                 Echo
                     (
@@ -71,6 +88,14 @@ namespace WebApplication1.Controllers
                         JToken parameters //= null!
                 )
         {
+            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            //MethodInfo currentMethod = (MethodInfo) MethodBase.GetCurrentMethod()!;
+            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
+            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
+            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
+            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
+            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
             return
                 await
                     Task
@@ -93,6 +118,14 @@ namespace WebApplication1.Controllers
         [Route("Echo/{* }")]
         public async Task<ActionResult> EchoAsync()
         {
+            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
+            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
+            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
+            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
+            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
+            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
             return
                 await
                     EchoAsync(null!);
