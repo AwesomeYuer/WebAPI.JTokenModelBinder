@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP
+﻿//#if NETCOREAPP
 namespace Microshaoft.WebApi
 {
     using Microsoft.AspNetCore.Http;
@@ -73,4 +73,4 @@ namespace Microshaoft.WebApi
         }
     }
 }
-#endif
+//#endif
