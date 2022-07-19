@@ -1,7 +1,7 @@
 
 ###
 
-GET  https://localhost:7095/api/admin/echo/sadasd/asdasd?a=111&b=2 HTTP/1.1
+GET  https://localhost:7095/api/admin/echo/sadasd/asdasd?a=111&b=2&a=a222 HTTP/1.1
 
 ###
 
@@ -52,7 +52,7 @@ content-type: application/json
 POST  https://localhost:7095/api/admin/echo HTTP/1.1
 content-type: application/json
 
-{a:9999}
+{a:9999,b:[1,2,3,5]}
 
 ###
 # ok
