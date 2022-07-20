@@ -114,5 +114,16 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app
+    .UseDefaultFiles
+        (
+            new DefaultFilesOptions()
+            {
+                DefaultFileNames =
+                    {
+                        "index.html"
+                    }
+            }
+        );
+app.UseStaticFiles();
 app.Run();
