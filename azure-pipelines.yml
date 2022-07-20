@@ -13,5 +13,5 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: sh azure-pipelines-all-in-one.sh $buildConfiguration
+- script: sh azure-pipelines-all-in-one.sh $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
