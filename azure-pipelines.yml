@@ -21,14 +21,14 @@ steps:
     command: restore
     projects: '$(Parameters.RestoreBuildProjects)'
 
-steps:
+# steps:
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     projects: '$(Parameters.RestoreBuildProjects)'
     arguments: '--configuration $(BuildConfiguration)'
 
-steps:
+# steps:
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
@@ -36,7 +36,7 @@ steps:
     projects: '$(Parameters.TestProjects)'
     arguments: '--configuration $(BuildConfiguration)'
 
-steps:
+# steps:
 - task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
@@ -45,7 +45,7 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
     zipAfterPublish: True
 
-steps:
+# steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
