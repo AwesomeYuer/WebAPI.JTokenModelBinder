@@ -10,7 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7F65F804-8826-4C9B-A51A-7DBC46924290}"
 	ProjectSection(SolutionItems) = preProject
 		ci-cd-all-in-one.sh = ci-cd-all-in-one.sh
-		azure-pipelines.OLD.yml = azure-pipelines.OLD.yml
+		azure-pipelines.yml = azure-pipelines.yml
 		README.md = README.md
 		VSCode.Rest.Client.Test\RestClientTest.http = VSCode.Rest.Client.Test\RestClientTest.http
 		.github\workflows\WebAPI-JTokenModelBinder.yml = .github\workflows\WebAPI-JTokenModelBinder.yml
