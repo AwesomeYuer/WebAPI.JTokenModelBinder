@@ -6,8 +6,7 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+pool: microshaoft-ci-cd-self-hosted-agent-pool-001
 
 variables:
   buildConfiguration: 'Release'
