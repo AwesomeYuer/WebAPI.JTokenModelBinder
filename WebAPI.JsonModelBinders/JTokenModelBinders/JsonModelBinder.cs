@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Primitives;
 using System.Threading.Tasks;
 
-public abstract class JsonModelBinder<T> : IModelBinder
-    where T : class
+public abstract class JsonModelBinder<T>
+                                    : IModelBinder
+                                            where T : class
 {
     private const string _itemKeyOfRequestJsonParameters = "requestJsonParameters";
 

@@ -14,7 +14,7 @@ public static class JsonWebHelper
     {
         return @this.ContentType == "application/json";
     }
-    public static T ToTJson<T>
+    public static T ToObjectJson<T>
                             (
                                 this IQueryCollection @this
                                 , Func
@@ -27,14 +27,14 @@ public static class JsonWebHelper
                             )
     {
         return
-             ToTJson<T>
+             ToObjectJson
                 (
                     (IEnumerable<KeyValuePair<string, StringValues>>)
                         @this
                         , onReturnProcessFunc
                 );
     }
-    public static T ToTJson<T>
+    public static T ToObjectJson<T>
                             (
                                 this IFormCollection @this
                                 , Func
@@ -47,14 +47,14 @@ public static class JsonWebHelper
                             )
     {
         return
-             ToTJson<T>
+             ToObjectJson
                 (
                     (IEnumerable<KeyValuePair<string, StringValues>>)
                         @this
                     , onReturnProcessFunc
                 );
     }
-    public static T ToTJson<T>
+    public static T ToObjectJson<T>
                             (
                                 this
                                     IEnumerable
@@ -81,46 +81,42 @@ public static class JsonWebHelper
                                                 @this
                                 )
     {
-
-        var
-            jsonProperties
-                = @this
-                    .Select
-                        (
-                            (x) =>
-                            {
-                                JsonNode jsonNode = null!;
-                                if (x.Value.Count > 1)
-                                {
-                                    var jsonArray = new JsonArray();
-                                    foreach (var v in x.Value)
+        var keyValuePairs =
+                        @this
+                            .Select
+                                (
+                                    (x) =>
                                     {
-                                        jsonArray.Add(v);
+                                        JsonNode jsonNode = null!;
+                                        if (x.Value.Count > 1)
+                                        {
+                                            var jsonArray = new JsonArray();
+                                            foreach (var v in x.Value)
+                                            {
+                                                jsonArray.Add(v);
+                                            }
+                                            jsonNode = jsonArray;
+                                        }
+                                        else
+                                        {
+                                            var valueText = x.Value[0];
+                                            if (!string.IsNullOrEmpty(valueText))
+                                            {
+                                                jsonNode = valueText!;
+                                            }
+                                        }
+                                        return
+                                            (x.Key, jsonNode);
                                     }
-                                    jsonNode = jsonArray;
-                                }
-                                else
-                                {
-                                    var valueText = x.Value[0];
-                                    if (!string.IsNullOrEmpty(valueText))
-                                    {
-                                        jsonNode = valueText!;
-                                    }
-                                }
-                                return
-                                    KeyValuePair.Create<string, JsonNode?>(x.Key, jsonNode);
-
-                            }
-                        );
+                                );
         var result = new JsonObject();
-        foreach (var x in jsonProperties)
+        foreach (var (key, @value) in keyValuePairs)
         {
-            result.Add(x.Key, x.Value);
+            result.Add(key, @value);
         }
-
         return result;
-
     }
+
     public static JToken ToJToken
                         (
                             this
@@ -130,34 +126,34 @@ public static class JsonWebHelper
                         )
     {
         IEnumerable<JProperty>
-            jProperties
-                = @this
-                    .Select
-                        (
-                            (x) =>
-                            {
-                                JToken jToken = null!;
-                                if (x.Value.Count > 1)
-                                {
-                                    jToken = new JArray(x.Value);
-                                }
-                                else
-                                {
-                                    var valueText = x.Value[0];
-                                    if (!string.IsNullOrEmpty(valueText))
-                                    {
-                                        jToken = new JValue(x.Value[0]);
-                                    }
-                                }
-                                return
-                                        new
-                                            JProperty
-                                                (
-                                                    x.Key
-                                                    , jToken
-                                                );
-                            }
-                        );
+                    jProperties =
+                                @this
+                                    .Select
+                                        (
+                                            (x) =>
+                                            {
+                                                JToken jToken = null!;
+                                                if (x.Value.Count > 1)
+                                                {
+                                                    jToken = new JArray(x.Value);
+                                                }
+                                                else
+                                                {
+                                                    var valueText = x.Value[0];
+                                                    if (!string.IsNullOrEmpty(valueText))
+                                                    {
+                                                        jToken = new JValue(x.Value[0]);
+                                                    }
+                                                }
+                                                return
+                                                        new
+                                                            JProperty
+                                                                (
+                                                                    x.Key
+                                                                    , jToken
+                                                                );
+                                            }
+                                        );
         var result = new JObject(jProperties);
         return result;
     }

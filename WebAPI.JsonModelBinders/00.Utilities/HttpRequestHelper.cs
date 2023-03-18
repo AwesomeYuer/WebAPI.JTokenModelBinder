@@ -374,7 +374,7 @@ public static partial class HttpRequestHelper
             }
             if (!isJson)
             {
-                result = @this.Query.ToTJson(onReturnProcessFunc);
+                result = @this.Query.ToObjectJson(onReturnProcessFunc);
 
                 //Console.WriteLine("@this.Query.ToJToken()");
             }
@@ -468,7 +468,7 @@ public static partial class HttpRequestHelper
             )
         {
             r = JsonWebHelper
-                            .ToTJson
+                            .ToObjectJson
                                 (
                                     (IFormCollection)
                                         @this

@@ -36,7 +36,7 @@ public partial class AdminController : ControllerBase
 
         return
             Request
-                .EchoJsonRequestJsonResult<JsonNode>
+                .EchoJsonRequestJsonResult
                     (
                         parameters
                         , new
@@ -104,7 +104,7 @@ public partial class AdminController : ControllerBase
                     .FromResult
                         (
                             Request
-                                .EchoJsonRequestJsonResult<JsonNode>
+                                .EchoJsonRequestJsonResult
                                     (
                                         parameters
                                         , new
@@ -153,6 +153,5 @@ public partial class AdminController : ControllerBase
                                         }
                                     )
                         );
-
     }
 }
