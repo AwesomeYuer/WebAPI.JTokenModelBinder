@@ -109,9 +109,10 @@ public static class JsonWebHelper
                                             (x.Key, jsonNode);
                                     }
                                 );
-        var result = new JsonObject();
+        JsonObject result = null!;
         foreach (var (key, @value) in keyValuePairs)
         {
+            result ??= new JsonObject();
             result.Add(key, @value);
         }
         return result;
