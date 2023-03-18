@@ -5,18 +5,19 @@ namespace WebApplication1.Controllers
     using Microshaoft.WebApi.ModelBinders;
     using Microshaoft;
     using Microshaoft.Web;
+    using System.Text.Json.Nodes;
 
     [ConstrainedRoute("api/[controller]")]
     [ApiController]
     [Route("api/[controller]")]
-    public class AdminController : ControllerBase
+    public partial class AdminController : ControllerBase
     {
-        private readonly ILogger<AdminController> _logger;
+        //private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ILogger<AdminController> logger)
-        {
-            _logger = logger;
-        }
+        //public AdminController(ILogger<AdminController> logger)
+        //{
+        //    _logger = logger;
+        //}
 
         [HttpDelete]
         [HttpGet]
@@ -25,11 +26,11 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
-        public ActionResult Echo
+        [Route("EchoJsonNode/{* }")]
+        public ActionResult EchoJsonNode
                 (
-                     [ModelBinder(typeof(JTokenModelBinder))]
-                        JToken parameters //= null!
+                     [ModelBinder(typeof(JsonNodeModelBinder))]
+                        JsonNode parameters //= null!
                 )
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -42,7 +43,7 @@ namespace WebApplication1.Controllers
 
             return
                 Request
-                    .EchoJTokenRequestJsonResult
+                    .EchoJsonRequestJsonResult
                         (parameters);
         }
 
@@ -55,7 +56,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [HttpPut]
         [Route("Echo/{* }")]
-        public ActionResult Echo()
+        public ActionResult EchoJsonNode()
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
@@ -66,7 +67,7 @@ namespace WebApplication1.Controllers
             //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
             return
-                Echo
+                EchoJsonNode
                     (
                         null!
                     );
@@ -80,11 +81,11 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
-        public async Task<ActionResult> EchoAsync
+        [Route("EchoJsonNode/{* }")]
+        public async Task<ActionResult> EchoJsonNodeAsync
                 (
-                     [ModelBinder(typeof(JTokenModelBinder))]
-                        JToken parameters //= null!
+                     [ModelBinder(typeof(JsonNodeModelBinder))]
+                        JsonNode parameters //= null!
                 )
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -101,7 +102,7 @@ namespace WebApplication1.Controllers
                         .FromResult
                             (
                                 Request
-                                    .EchoJTokenRequestJsonResult
+                                    .EchoJsonRequestJsonResult
                                         (parameters)
                             );
                 
@@ -114,8 +115,8 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
-        public async Task<ActionResult> EchoAsync()
+        [Route("EchoJsonNode/{* }")]
+        public async Task<ActionResult> EchoJsonNodeAsync()
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
@@ -127,7 +128,7 @@ namespace WebApplication1.Controllers
 
             return
                 await
-                    EchoAsync(null!);
+                    EchoJsonNodeAsync(null!);
 
         }
 
