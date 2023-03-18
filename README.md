@@ -10,6 +10,63 @@ Newtonsoft.Json.Linq.JToken
 System.Text.Json.Nodes.JsonNode
 ```
 
+```csharp
+namespace WebApplication1.Controllers;
+
+using Microshaoft;
+using Microshaoft.Web;
+using Microshaoft.WebApi.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Nodes;
+
+[ConstrainedRoute("api/[controller]")]
+[ApiController]
+[Route("api/[controller]")]
+public partial class AdminController : ControllerBase
+{
+    //private readonly ILogger<AdminController> _logger;
+
+    //public AdminController(ILogger<AdminController> logger)
+    //{
+    //    _logger = logger;
+    //}
+
+    [HttpDelete]
+    [HttpGet]
+    [HttpHead]
+    [HttpOptions]
+    [HttpPatch]
+    [HttpPost]
+    [HttpPut]
+    [Route("Echo/JsonNode/{* }")]
+    public ActionResult EchoJsonNode
+            (
+                 [ModelBinder(typeof(JsonNodeModelBinder))]
+                    JsonNode parameters //= null!
+            )
+    {
+        var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
+
+        return
+            Request
+                .EchoJsonRequestJsonResult<JsonNode>
+                    (
+                        parameters
+                        , new
+                        {
+                            Caller = new
+                            {
+                                callerMemberName
+                                , callerFilePath
+                                , callerLineNumber
+                            }
+                        }
+                    );
+    }
+}
+```
+
+
 ## For Testing use `.http` file as below: 
 ```
 WebAPI.JTokenModelBinder\VSCode.Rest.Client.Test\RestClientTest.http
