@@ -32,18 +32,23 @@ namespace WebApplication1.Controllers
                         JsonNode parameters //= null!
                 )
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
                 Request
-                    .EchoJsonRequestJsonResult
-                        (parameters);
+                    .EchoJsonRequestJsonResult<JsonNode>
+                        (
+                            parameters
+                            , new
+                            {
+                                Caller = new
+                                {
+                                    callerMemberName
+                                    , callerFilePath
+                                    , callerLineNumber
+                                }
+                            }
+                        );
         }
 
 
@@ -57,19 +62,23 @@ namespace WebApplication1.Controllers
         [Route("Echo/JsonNode/{* }")]
         public ActionResult EchoJsonNode()
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
-                EchoJsonNode
-                    (
-                        null!
-                    );
+                Request
+                    .EchoJsonRequestJsonResult<JsonNode>
+                        (
+                            null!
+                            , new
+                            {
+                                Caller = new
+                                {
+                                    callerMemberName
+                                    , callerFilePath
+                                    , callerLineNumber
+                                }
+                            }
+                        );
         }
 
 
@@ -87,13 +96,7 @@ namespace WebApplication1.Controllers
                         JsonNode parameters //= null!
                 )
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo) MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
                 await
@@ -101,10 +104,21 @@ namespace WebApplication1.Controllers
                         .FromResult
                             (
                                 Request
-                                    .EchoJsonRequestJsonResult
-                                        (parameters)
+                                    .EchoJsonRequestJsonResult<JsonNode>
+                                        (
+                                            parameters
+                                            , new
+                                            {
+                                                Caller = new
+                                                {
+                                                    callerMemberName
+                                                    , callerFilePath
+                                                    , callerLineNumber
+                                                }
+                                            }
+                                        )
                             );
-                
+
         }
  
         [HttpDelete]
@@ -117,19 +131,29 @@ namespace WebApplication1.Controllers
         [Route("Echo/JsonNode/{* }")]
         public async Task<ActionResult> EchoJsonNodeAsync()
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
                 await
-                    EchoJsonNodeAsync(null!);
+                    Task
+                        .FromResult
+                            (
+                                Request
+                                    .EchoJsonRequestJsonResult<JsonNode>
+                                        (
+                                            null!
+                                            , new
+                                            {
+                                                Caller = new
+                                                {
+                                                    callerMemberName
+                                                    , callerFilePath
+                                                    , callerLineNumber
+                                                }
+                                            }
+                                        )
+                            );
 
         }
-
     }
 }

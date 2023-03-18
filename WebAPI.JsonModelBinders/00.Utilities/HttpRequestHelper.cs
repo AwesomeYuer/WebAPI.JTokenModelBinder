@@ -19,6 +19,7 @@ public static partial class HttpRequestHelper
                     (
                        this HttpRequest @this
                         , T requestJsonParameters
+                        , object context
                     )
     {
         return
@@ -27,6 +28,7 @@ public static partial class HttpRequestHelper
                 new
                 {
                     WebApiRequestJsonParameters = requestJsonParameters
+                    , context
                     ,
                     Request = new
                     {

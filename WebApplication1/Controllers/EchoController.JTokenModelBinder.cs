@@ -5,6 +5,8 @@ namespace WebApplication1.Controllers
     using Microshaoft.WebApi.ModelBinders;
     using Microshaoft;
     using Microshaoft.Web;
+    using System.Reflection;
+    using System.Text.Json.Nodes;
 
     //[ConstrainedRoute("api/[controller]")]
     //[ApiController]
@@ -32,18 +34,34 @@ namespace WebApplication1.Controllers
                         JToken parameters //= null!
                 )
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
+            Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
+            Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
+            Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
+            Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
             return
                 Request
-                    .EchoJsonRequestJsonResult
-                        (parameters);
+                    .EchoJsonRequestJsonResult<JToken>
+                        (
+                            parameters
+                            , new
+                            {
+                                CurrentMethod =
+                                new
+                                {
+                                    currentMethod.Name
+                                    ,
+                                    ReturnType = currentMethod.ReturnType.Name
+                                    ,
+                                    IsAsync = currentMethod.IsAsync()
+                                    ,
+                                    Parameters = currentMethod.GetParameters()
+                                }
+                            }
+                        );
         }
 
 
@@ -57,19 +75,34 @@ namespace WebApplication1.Controllers
         [Route("Echo/JToken/{* }")]
         public ActionResult Echo()
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
+            Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
+            Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
+            Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
+            Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
             return
-                Echo
-                    (
-                        null!
-                    );
+                Request
+                    .EchoJsonRequestJsonResult<JToken>
+                        (
+                            null!
+                            , new
+                            {
+                                CurrentMethod =
+                                new
+                                {
+                                    currentMethod.Name
+                                    ,
+                                    ReturnType = currentMethod.ReturnType.Name
+                                    ,
+                                    IsAsync = currentMethod.IsAsync()
+                                    ,
+                                    Parameters = currentMethod.GetParameters()
+                                }
+                            }
+                        );
         }
 
 
@@ -87,13 +120,7 @@ namespace WebApplication1.Controllers
                         JToken parameters //= null!
                 )
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo) MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var x = CallerHelper.GetCallerInfo();
 
             return
                 await
@@ -102,9 +129,13 @@ namespace WebApplication1.Controllers
                             (
                                 Request
                                     .EchoJsonRequestJsonResult
-                                        (parameters)
+                                        (
+                                            parameters
+                                            , x
+                                            
+                                        )
                             );
-                
+
         }
  
         [HttpDelete]
@@ -117,17 +148,39 @@ namespace WebApplication1.Controllers
         [Route("Echo/JToken/{* }")]
         public async Task<ActionResult> EchoAsync()
         {
-            //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            //MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            //Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            //Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            //Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            //Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
+            Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
+            Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
+            Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
+            Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
             return
                 await
-                    EchoAsync(null!);
+                    Task
+                        .FromResult
+                            (
+                                Request
+                                    .EchoJsonRequestJsonResult<JToken>
+                                        (
+                                            null!
+                                            , new
+                                            {
+                                                CurrentMethod =
+                                                new
+                                                {
+                                                    currentMethod.Name
+                                                    ,
+                                                    ReturnType = currentMethod.ReturnType.Name
+                                                    ,
+                                                    IsAsync = currentMethod.IsAsync()
+                                                    ,
+                                                    Parameters = currentMethod.GetParameters()
+                                                }
+                                            }
+                                        )
+                            );
 
         }
 

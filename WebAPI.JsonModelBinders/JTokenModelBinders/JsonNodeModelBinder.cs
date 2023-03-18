@@ -9,7 +9,7 @@ public class JsonNodeModelBinder : JsonModelBinder<JsonNode> ,IModelBinder
     //private const string _itemKeyOfRequestJTokenParameters = "requestJTokenParameters";
 
     protected override string JwtTokenKey 
-                { get => "a" ; }
+                { get => "xJwtToken" ; }
 
     public override JsonNode OnParseProcessFunc(string json)
     {
