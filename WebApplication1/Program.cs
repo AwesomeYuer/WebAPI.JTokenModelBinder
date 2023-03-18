@@ -44,17 +44,17 @@ builder
         );
 
 //=================================================================================================
-//builder
-//    .Services
-//    .Configure
-//        <KestrelServerOptions>
-//            (
-//                (options) =>
-//                {
-//                    options
-//                            .AllowSynchronousIO = true;
-//                }
-//            );
+builder
+    .Services
+    .Configure
+        <KestrelServerOptions>
+            (
+                (options) =>
+                {
+                    options
+                            .AllowSynchronousIO = true;
+                }
+            );
 var configurationBuilder = new ConfigurationBuilder();
 var configuration = configurationBuilder.Build();
 

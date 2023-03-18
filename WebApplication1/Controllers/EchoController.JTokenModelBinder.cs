@@ -1,11 +1,10 @@
 namespace WebApplication1.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json.Linq;
-    using Microshaoft.WebApi.ModelBinders;
     using Microshaoft;
     using Microshaoft.Web;
-    using System.Reflection;
+    using Microshaoft.WebApi.ModelBinders;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json.Linq;
     using System.Text.Json.Nodes;
 
     //[ConstrainedRoute("api/[controller]")]
@@ -13,12 +12,12 @@ namespace WebApplication1.Controllers
     //[Route("api/[controller]")]
     public partial class AdminController : ControllerBase
     {
-        private readonly ILogger<AdminController> _logger;
+        //private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ILogger<AdminController> logger)
-        {
-            _logger = logger;
-        }
+        //public AdminController(ILogger<AdminController> logger)
+        //{
+        //    _logger = logger;
+        //}
 
         [HttpDelete]
         [HttpGet]
@@ -28,19 +27,13 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [HttpPut]
         [Route("Echo/JToken/{* }")]
-        public ActionResult Echo
+        public ActionResult EchoJToken
                 (
                      [ModelBinder(typeof(JTokenModelBinder))]
                         JToken parameters //= null!
                 )
         {
-            Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
                 Request
@@ -49,16 +42,11 @@ namespace WebApplication1.Controllers
                             parameters
                             , new
                             {
-                                CurrentMethod =
-                                new
+                                Caller = new
                                 {
-                                    currentMethod.Name
-                                    ,
-                                    ReturnType = currentMethod.ReturnType.Name
-                                    ,
-                                    IsAsync = currentMethod.IsAsync()
-                                    ,
-                                    Parameters = currentMethod.GetParameters()
+                                    callerMemberName
+                                    , callerFilePath
+                                    , callerLineNumber
                                 }
                             }
                         );
@@ -73,15 +61,9 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [HttpPut]
         [Route("Echo/JToken/{* }")]
-        public ActionResult Echo()
+        public ActionResult EchoJToken()
         {
-            Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
                 Request
@@ -90,16 +72,11 @@ namespace WebApplication1.Controllers
                             null!
                             , new
                             {
-                                CurrentMethod =
-                                new
+                                Caller = new
                                 {
-                                    currentMethod.Name
-                                    ,
-                                    ReturnType = currentMethod.ReturnType.Name
-                                    ,
-                                    IsAsync = currentMethod.IsAsync()
-                                    ,
-                                    Parameters = currentMethod.GetParameters()
+                                    callerMemberName
+                                    , callerFilePath
+                                    , callerLineNumber
                                 }
                             }
                         );
@@ -114,13 +91,13 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [HttpPut]
         [Route("Echo/JToken/{* }")]
-        public async Task<ActionResult> EchoAsync
+        public async Task<ActionResult> EchoJTokenAsync
                 (
                      [ModelBinder(typeof(JTokenModelBinder))]
                         JToken parameters //= null!
                 )
         {
-            var x = CallerHelper.GetCallerInfo();
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
                 await
@@ -128,11 +105,18 @@ namespace WebApplication1.Controllers
                         .FromResult
                             (
                                 Request
-                                    .EchoJsonRequestJsonResult
+                                    .EchoJsonRequestJsonResult<JToken>
                                         (
                                             parameters
-                                            , x
-                                            
+                                            , new
+                                            {
+                                                Caller = new
+                                                {
+                                                    callerMemberName
+                                                    , callerFilePath
+                                                    , callerLineNumber
+                                                }
+                                            }
                                         )
                             );
 
@@ -146,15 +130,9 @@ namespace WebApplication1.Controllers
         [HttpPost]
         [HttpPut]
         [Route("Echo/JToken/{* }")]
-        public async Task<ActionResult> EchoAsync()
+        public async Task<ActionResult> EchoJTokenAsync()
         {
-            Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            MethodInfo currentMethod = (MethodInfo)MethodBase.GetCurrentMethod()!;
-            Console.WriteLine($"{nameof(currentMethod.ReturnType)}:{currentMethod!.ReturnType!.Name}");
-            Console.WriteLine($"{nameof(currentMethod)}:{currentMethod!.Name}");
-            Console.WriteLine($"IsAsync:{currentMethod!.IsAsync()}");
-            Console.WriteLine($"ParametersLength:{currentMethod.GetParameters().Length}");
-            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
 
             return
                 await
@@ -167,22 +145,16 @@ namespace WebApplication1.Controllers
                                             null!
                                             , new
                                             {
-                                                CurrentMethod =
-                                                new
+                                                Caller = new
                                                 {
-                                                    currentMethod.Name
-                                                    ,
-                                                    ReturnType = currentMethod.ReturnType.Name
-                                                    ,
-                                                    IsAsync = currentMethod.IsAsync()
-                                                    ,
-                                                    Parameters = currentMethod.GetParameters()
+                                                    callerMemberName
+                                                    , callerFilePath
+                                                    , callerLineNumber
                                                 }
                                             }
                                         )
                             );
 
         }
-
     }
 }
