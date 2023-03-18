@@ -303,7 +303,7 @@ public static partial class HttpRequestHelper
         where T : class
     {
         bool r;
-        T jsonNode = default!;
+        T result = default!;
         void requestFormBodyProcess()
         {
             var hasContentLength = @this.ContentLength > 0;
@@ -318,7 +318,7 @@ public static partial class HttpRequestHelper
             {
                 if (onFormProcessFuncAsync != null)
                 {
-                    jsonNode = onFormProcessFuncAsync().Result;
+                    result = onFormProcessFuncAsync().Result;
                 }
             }
             else if (hasContentLength)
@@ -328,10 +328,10 @@ public static partial class HttpRequestHelper
                 if (!json.IsNullOrEmptyOrWhiteSpace())
                 {
                     json
-                        .IsJson<T>
+                        .IsJson
                             (
                                 onParseProcessFunc
-                                , out jsonNode
+                                , out result
                                 , true
                             );
                 }
@@ -361,9 +361,9 @@ public static partial class HttpRequestHelper
             var isJson = false;
             try
             {
-                if (queryString.IsJson(onParseProcessFunc ,out jsonNode, true))
+                if (queryString.IsJson(onParseProcessFunc ,out result, true))
                 {
-                    isJson = jsonNode is T;
+                    isJson = result is T;
                 }
             }
             catch
@@ -372,7 +372,7 @@ public static partial class HttpRequestHelper
             }
             if (!isJson)
             {
-                jsonNode = @this.Query.ToTJson<T>(onReturnProcessFunc);
+                result = @this.Query.ToTJson(onReturnProcessFunc);
 
                 //Console.WriteLine("@this.Query.ToJToken()");
             }
@@ -384,7 +384,7 @@ public static partial class HttpRequestHelper
         {
             if (needExtractJwtToken)
             {
-                if (jsonNode != null)
+                if (result != null)
                 {
                     if (StringValues.IsNullOrEmpty(jwtToken))
                     {
@@ -397,7 +397,7 @@ public static partial class HttpRequestHelper
                         {
                             if (onExtractJwtTokenProcessFuncAsync != null)
                             {
-                                jwtToken = onExtractJwtTokenProcessFuncAsync(jsonNode, jwtTokenName);
+                                jwtToken = onExtractJwtTokenProcessFuncAsync(result, jwtTokenName);
                             }
                         }
                     }
@@ -428,7 +428,7 @@ public static partial class HttpRequestHelper
             requestQueryStringHeaderProcess();
         }
         extractJwtToken();
-        parameters = jsonNode;
+        parameters = result;
         secretJwtToken = jwtToken;
         r = true;
         return r;
@@ -466,7 +466,7 @@ public static partial class HttpRequestHelper
             )
         {
             r = JsonWebHelper
-                            .ToTJson<T>
+                            .ToTJson
                                 (
                                     (IFormCollection)
                                         @this
@@ -477,75 +477,4 @@ public static partial class HttpRequestHelper
         }
         return r;
     }
-
-
-    //public static async 
-    //    Task<JToken> GetFormJTokenAsync
-    //                        (
-    //                            this ModelBindingContext @this
-    //                        )
-    //{
-    //    JToken r = null!;
-    //    var formCollectionModelBinder =
-    //                        new FormCollectionModelBinder
-    //                                (
-    //                                    NullLoggerFactory
-    //                                                .Instance
-    //                                );
-    //    await
-    //        formCollectionModelBinder
-    //                    .BindModelAsync(@this);
-    //    if 
-    //        (
-    //            @this
-    //                .Result
-    //                .IsModelSet
-    //        )
-    //    {
-    //        r = JTokenWebHelper
-    //                        .ToJToken
-    //                            (
-    //                                (IFormCollection)
-    //                                    @this
-    //                                        .Result
-    //                                        .Model!
-    //                            );
-    //    }
-    //    return r;
-    //}
-
-
-    //public static async Task<JsonNode> GetFormJsonNodeAsync
-    //                (
-    //                    this ModelBindingContext @this
-    //                )
-    //{
-    //    JsonNode r = null!;
-    //    var formCollectionModelBinder =
-    //                        new FormCollectionModelBinder
-    //                                (
-    //                                    NullLoggerFactory
-    //                                                .Instance
-    //                                );
-    //    await
-    //        formCollectionModelBinder
-    //                    .BindModelAsync(@this);
-    //    if
-    //        (
-    //            @this
-    //                .Result
-    //                .IsModelSet
-    //        )
-    //    {
-    //        r = JsonNodeWebHelper
-    //                        .ToJsonNode
-    //                            (
-    //                                (IFormCollection)
-    //                                    @this
-    //                                        .Result
-    //                                        .Model!
-    //                            );
-    //    }
-    //    return r;
-    //}
 }

@@ -25,7 +25,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
+        [Route("Echo/JToken/{* }")]
         public ActionResult Echo
                 (
                      [ModelBinder(typeof(JTokenModelBinder))]
@@ -54,7 +54,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
+        [Route("Echo/JToken/{* }")]
         public ActionResult Echo()
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -80,7 +80,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
+        [Route("Echo/JToken/{* }")]
         public async Task<ActionResult> EchoAsync
                 (
                      [ModelBinder(typeof(JTokenModelBinder))]
@@ -114,7 +114,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
+        [Route("Echo/JToken/{* }")]
         public async Task<ActionResult> EchoAsync()
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");

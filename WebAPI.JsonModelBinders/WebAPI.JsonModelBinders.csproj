@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="JsonHelper\JsonHelper.01.cs" />
-    <Compile Remove="JsonHelper\JsonHelper.02.cs" />
-    <Compile Remove="JsonHelper\JsonHelper.03.cs" />
-    <Compile Remove="JsonHelper\JsonHelper.04.cs" />
-    <Compile Remove="JsonHelper\JsonHelper.05.cs" />
-    <Compile Remove="JTokenModelBinder\JsonNodeModelBinderProvider.old.cs" />
-    <Compile Remove="JTokenModelBinder\JTokenModelBinderProvider.NET.Core.Standard.cs" />
-    <Compile Remove="JTokenModelBinder\JTokenWebHelper.NET.Core.Standard.cs" />
+    <Compile Remove="00.Utilities\JsonHelper.01.cs" />
+    <Compile Remove="00.Utilities\JsonHelper.02.cs" />
+    <Compile Remove="00.Utilities\JsonHelper.03.cs" />
+    <Compile Remove="00.Utilities\JsonHelper.04.cs" />
+    <Compile Remove="00.Utilities\JsonHelper.05.cs" />
+    <Compile Remove="JTokenModelBinders\JsonNodeModelBinderProvider.old.cs" />
+    <Compile Remove="JTokenModelBinders\JTokenModelBinderProvider.NET.Core.Standard.cs" />
+    <Compile Remove="JTokenModelBinders\JTokenWebHelper.NET.Core.Standard.cs" />
   </ItemGroup>
 
   <ItemGroup>

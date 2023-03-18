@@ -1,10 +1,9 @@
 namespace WebApplication1.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json.Linq;
-    using Microshaoft.WebApi.ModelBinders;
     using Microshaoft;
     using Microshaoft.Web;
+    using Microshaoft.WebApi.ModelBinders;
+    using Microsoft.AspNetCore.Mvc;
     using System.Text.Json.Nodes;
 
     [ConstrainedRoute("api/[controller]")]
@@ -26,7 +25,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("EchoJsonNode/{* }")]
+        [Route("Echo/JsonNode/{* }")]
         public ActionResult EchoJsonNode
                 (
                      [ModelBinder(typeof(JsonNodeModelBinder))]
@@ -55,7 +54,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("Echo/{* }")]
+        [Route("Echo/JsonNode/{* }")]
         public ActionResult EchoJsonNode()
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -81,7 +80,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("EchoJsonNode/{* }")]
+        [Route("Echo/JsonNode/{* }")]
         public async Task<ActionResult> EchoJsonNodeAsync
                 (
                      [ModelBinder(typeof(JsonNodeModelBinder))]
@@ -115,7 +114,7 @@ namespace WebApplication1.Controllers
         [HttpPatch]
         [HttpPost]
         [HttpPut]
-        [Route("EchoJsonNode/{* }")]
+        [Route("Echo/JsonNode/{* }")]
         public async Task<ActionResult> EchoJsonNodeAsync()
         {
             //Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");

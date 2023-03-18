@@ -11,10 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder
     .Services
     .AddControllers()
-//===================================
-    .AddNewtonsoftJson();
-//===================================
-
+    //===================================
+    //.AddNewtonsoftJson()
+    //===================================
+    ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder
@@ -44,17 +44,17 @@ builder
         );
 
 //=================================================================================================
-builder
-    .Services
-    .Configure
-        <KestrelServerOptions>
-            (
-                (options) =>
-                {
-                    options
-                            .AllowSynchronousIO = true;
-                }
-            );
+//builder
+//    .Services
+//    .Configure
+//        <KestrelServerOptions>
+//            (
+//                (options) =>
+//                {
+//                    options
+//                            .AllowSynchronousIO = true;
+//                }
+//            );
 var configurationBuilder = new ConfigurationBuilder();
 var configuration = configurationBuilder.Build();
 
