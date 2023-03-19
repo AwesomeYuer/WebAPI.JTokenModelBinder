@@ -26,7 +26,7 @@ sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0A
 POST  https://localhost:7095/api/admin/echo/jsonnode/async/bbbbb HTTP/1.1
 content-type: application/json
 
-{ "a": 1}
+{ "a": 1 }
 
 ###
 # failed
