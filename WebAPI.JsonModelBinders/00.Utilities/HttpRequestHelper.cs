@@ -349,13 +349,13 @@ public static partial class HttpRequestHelper
                 var json = streamReader.ReadToEnd();
                 if (!json.IsNullOrEmptyOrWhiteSpace())
                 {
-                    json
-                        .IsJson
-                            (
-                                onParseProcessFunc
-                                , out result
-                                , true
-                            );
+                    r = json
+                            .IsJson
+                                (
+                                    onParseProcessFunc
+                                    , out result
+                                    , true
+                                );
                 }
             }
         }

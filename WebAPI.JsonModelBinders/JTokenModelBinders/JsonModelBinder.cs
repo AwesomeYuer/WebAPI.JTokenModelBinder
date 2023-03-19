@@ -2,9 +2,7 @@
 
 using Microshaoft.Web;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
 public abstract class JsonModelBinder<T>
@@ -84,69 +82,10 @@ public abstract class JsonModelBinder<T>
         return parameters!;
     }
 
-    public virtual JToken GetJTokenModelBindingResult(ModelBindingContext bindingContext)
-    {
-        var httpContext = bindingContext
-                                    .HttpContext;
-        var request = httpContext
-                                .Request;
-        IConfiguration configuration =
-                    (IConfiguration)httpContext
-                                            .RequestServices
-                                            .GetService
-                                                (
-                                                    typeof(IConfiguration)
-                                                )!;
-        var jwtTokenName = configuration
-                                    .GetSection("TokenName")
-                                    .Value;
-        var ok = false;
-        ok = request
-                .TryParseObjectJsonParameters<JToken>
-                    (
-                        (x) => JToken.Parse(x)
-                        , out JToken parameters
-                        , out var secretJwtToken
-                        , jwtTokenName: jwtTokenName!
-                    );
-        if (ok)
-        {
-            if
-                (
-                    !httpContext
-                            .Items
-                            .ContainsKey
-                                (
-                                    ItemKeyOfRequestJsonParameters
-                                )
-                )
-            {
-                httpContext
-                        .Items
-                        .Add
-                            (
-                                ItemKeyOfRequestJsonParameters
-                                , parameters
-                            );
-            }
-        }
-        if (!StringValues.IsNullOrEmpty(secretJwtToken))
-        {
-            httpContext
-                    .Items
-                    .Add
-                        (
-                            jwtTokenName!
-                            , secretJwtToken
-                        );
-        }
-        return parameters;
-    }
-
     public virtual Task BindModelAsync(ModelBindingContext bindingContext)
     {
 
-        var parameters = GetJsonModelBindingResult
+        var result = GetJsonModelBindingResult
                                         (
                                             bindingContext
                                         );
@@ -154,7 +93,7 @@ public abstract class JsonModelBinder<T>
                     .Result = ModelBindingResult
                                             .Success
                                                 (
-                                                    parameters
+                                                    result
                                                 );
         return
             Task

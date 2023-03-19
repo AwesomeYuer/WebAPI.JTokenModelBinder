@@ -6,6 +6,21 @@ GET  https://localhost:7095/api/admin/echo/jsonnode/async/asdasd?a=111&b=2&a=a22
 
 
 ###
+GET  https://localhost:7095/api/admin/strongtype?a=111&b=2&a=a222 HTTP/1.1
+
+###
+POST  https://localhost:7095/api/admin/strongtype?a=111&b=2&a=a222 HTTP/1.1
+
+{
+    "a" : [ "1111" ]
+    , "b" : "2222"
+    , "c" : 333
+    , "d" : null
+    , "e" : { "a": 111 }
+    , "f" : [{}]
+}
+
+###
 # ok
 POST  https://localhost:7095/api/admin/echo/jsonnode/a/bbbbb?a=111&b=2 HTTP/1.1
 content-type: application/x-www-form-urlencoded
@@ -26,12 +41,18 @@ sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0A
 POST  https://localhost:7095/api/admin/echo/jsonnode/async/bbbbb HTTP/1.1
 content-type: application/json
 
-{ "a": 1 }
+{ "a": 
+
+
+
+1 }
 
 ###
-# failed
+# failed because without request content body
 POST  https://localhost:7095/api/admin/echo/jsonnode/a/bbbbb?a=111&b=2 HTTP/1.1
 content-type: application/json
+
+[]
 
 
 ###
