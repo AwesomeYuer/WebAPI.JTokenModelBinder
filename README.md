@@ -18,7 +18,7 @@ Web API JsonModelBindersÊÇÎªÁË°ïÖú¿ª·¢ÈËÔ±ÇáËÉÔÚAPI¿ØÖÆÆ÷ÖÐ´«µÝJSON×÷Îª²ÎÊý»ò½á¹
 
 Web API JsonModelBinders provide an easy way for developers to pass JSON as parameters or results. Available JsonModelBinder types are JTokenModelBinders, Newtonsoft.Json.Linq.JToken, and System.Text.Json.Nodes.JsonNode, which help developers use JsonNode, JToken, and JObject as parameters in API controllers. An example usage is defining an API controller with an EchoJson node method that has a ModelBinder attribute accepting a jsonNode parameter and then returning it to display results. This technology can be tested by using a .http file, such as WebAPI.JTokenModelBinder/VSCode.Rest.Client.Test/RestClientTest.http.
 
-* Support All http methods pass JsonNode/JToken parameter
+* Support All http methods pass data and convert it to JsonNode/JToken as WebAPI parameter
 
     ```
         [HttpDelete]
