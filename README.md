@@ -8,6 +8,92 @@ Web API JsonModelBindersÊÇÎªÁË°ïÖú¿ª·¢ÈËÔ±ÇáËÉÔÚAPI¿ØÖÆÆ÷ÖÐ´«µÝJSON×÷Îª²ÎÊý»ò½á¹
 
 Web API JsonModelBinders provide an easy way for developers to pass JSON as parameters or results. Available JsonModelBinder types are JTokenModelBinders, Newtonsoft.Json.Linq.JToken, and System.Text.Json.Nodes.JsonNode, which help developers use JsonNode, JToken, and JObject as parameters in API controllers. An example usage is defining an API controller with an EchoJson node method that has a ModelBinder attribute accepting a jsonNode parameter and then returning it to display results. This technology can be tested by using a .http file, such as WebAPI.JTokenModelBinder/VSCode.Rest.Client.Test/RestClientTest.http.
 
+* Support All http methods pass JsonNode/JToken parameter
+
+    ```
+        [HttpDelete]
+        [HttpGet]
+        [HttpHead]
+        [HttpOptions]
+        [HttpPatch]
+        [HttpPost]
+        [HttpPut]
+    ```
+* Support json and url encode query string and form body
+    ```http
+    ###
+    GET  https://localhost:7095/api/admin/echo/jsonnode/asdasd?a=111&b=2&a=a222 HTTP/1.1
+
+    ###
+    GET  https://localhost:7095/api/admin/echo/jsonnode/async/asdasd?a=111&b=2&a=a222 HTTP/1.1
+
+
+    ###
+    # ok
+    POST  https://localhost:7095/api/admin/echo/jsonnode/a/bbbbb?a=111&b=2 HTTP/1.1
+    content-type: application/x-www-form-urlencoded
+
+    sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0Aselect+'%22111%22'+as+F%2C+*%0Afrom%0Asys.objects%0A%0Aselect+'%22222%22'+as+F%2C+*%0Afrom%0Asys.objects&rowcount=100
+
+
+    ###
+    # ok
+    POST  https://localhost:7095/api/admin/echo/jsonnode/async/bbbbb?a=111&b=2 HTTP/1.1
+    content-type: application/x-www-form-urlencoded
+
+    sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0Aselect+'%22111%22'+as+F%2C+*%0Afrom%0Asys.objects%0A%0Aselect+'%22222%22'+as+F%2C+*%0Afrom%0Asys.objects&rowcount=100
+
+
+    ###
+    # ok
+    POST  https://localhost:7095/api/admin/echo/jsonnode/async/bbbbb HTTP/1.1
+    content-type: application/json
+
+    { "a": 1}
+
+    ###
+    # failed
+    POST  https://localhost:7095/api/admin/echo/jsonnode/a/bbbbb?a=111&b=2 HTTP/1.1
+    content-type: application/json
+
+
+    ###
+    #ÒÑÐÞ¸´ËÄÑ¡Ò»ÓÐBug
+    # AmbiguousMatchException
+    POST  https://localhost:7095/api/admin/echo/jsonnode HTTP/1.1
+    content-type: application/json
+
+    {"a":9999,"b":[1,2,3,5]}
+
+    ###
+    #ÒÑÐÞ¸´ËÄÑ¡Ò»ÓÐBug
+    # AmbiguousMatchException
+    # Async ´óÐ´ A Ôò Ê§°Ü
+    POST  https://localhost:7095/api/admin/echo/jsonnode/async/aaa?a=10 HTTP/1.1
+    content-type: application/json
+
+    {"a":9999,"b":[1,2,3,5]}
+
+    ###
+    PUT  https://localhost:7095/api/admin/echo/jsonnode?a=111&b=2 HTTP/1.1
+    content-type: application/json
+
+    {}
+
+    ###
+    PUT  https://localhost:7095/api/admin/echo/jsonnode/async/aa/zz HTTP/1.1
+    content-type: application/json
+
+    {"a":1}
+
+    ###
+
+    GET  https://localhost:7095/api/admin/echo/jsonnode/async/sadasd/asdasd?{a:19} HTTP/1.1
+
+
+    ```
+
+
 
 ## JTokenModelBinders
 ```
@@ -77,84 +163,12 @@ public partial class AdminController : ControllerBase
 }
 ```
 
-
 ## For Testing use `.http` file as below: 
 ```
 WebAPI.JTokenModelBinder\VSCode.Rest.Client.Test\RestClientTest.http
 ```
 
-```http
-###
-GET  https://localhost:7095/api/admin/echo/jsonnode/asdasd?a=111&b=2&a=a222 HTTP/1.1
 
-###
-GET  https://localhost:7095/api/admin/echo/jsonnode/async/asdasd?a=111&b=2&a=a222 HTTP/1.1
-
-
-###
-# ok
-POST  https://localhost:7095/api/admin/echo/jsonnode/a/bbbbb?a=111&b=2 HTTP/1.1
-content-type: application/x-www-form-urlencoded
-
-sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0Aselect+'%22111%22'+as+F%2C+*%0Afrom%0Asys.objects%0A%0Aselect+'%22222%22'+as+F%2C+*%0Afrom%0Asys.objects&rowcount=100
-
-
-###
-# ok
-POST  https://localhost:7095/api/admin/echo/jsonnode/async/bbbbb?a=111&b=2 HTTP/1.1
-content-type: application/x-www-form-urlencoded
-
-sql=set+statistics+io+on%0Aset+statistics+time+on%0Aset+statistics+profile+on%0Aselect+'%22111%22'+as+F%2C+*%0Afrom%0Asys.objects%0A%0Aselect+'%22222%22'+as+F%2C+*%0Afrom%0Asys.objects&rowcount=100
-
-
-###
-# ok
-POST  https://localhost:7095/api/admin/echo/jsonnode/async/bbbbb HTTP/1.1
-content-type: application/json
-
-{ "a": 1}
-
-###
-# failed
-POST  https://localhost:7095/api/admin/echo/jsonnode/a/bbbbb?a=111&b=2 HTTP/1.1
-content-type: application/json
-
-
-###
-#ÒÑÐÞ¸´ËÄÑ¡Ò»ÓÐBug
-# AmbiguousMatchException
-POST  https://localhost:7095/api/admin/echo/jsonnode HTTP/1.1
-content-type: application/json
-
-{"a":9999,"b":[1,2,3,5]}
-
-###
-#ÒÑÐÞ¸´ËÄÑ¡Ò»ÓÐBug
-# AmbiguousMatchException
-# Async ´óÐ´ A Ôò Ê§°Ü
-POST  https://localhost:7095/api/admin/echo/jsonnode/async/aaa?a=10 HTTP/1.1
-content-type: application/json
-
-{"a":9999,"b":[1,2,3,5]}
-
-###
-PUT  https://localhost:7095/api/admin/echo/jsonnode?a=111&b=2 HTTP/1.1
-content-type: application/json
-
-{}
-
-###
-PUT  https://localhost:7095/api/admin/echo/jsonnode/async/aa/zz HTTP/1.1
-content-type: application/json
-
-{"a":1}
-
-###
-
-GET  https://localhost:7095/api/admin/echo/jsonnode/async/sadasd/asdasd?{a:19} HTTP/1.1
-
-
-```
 
 
 [![Build Status](https://microshaoft.visualstudio.com/sample-project-001/_apis/build/status/Microshaoft.WebAPI.JTokenModelBinder?branchName=master)](https://microshaoft.visualstudio.com/sample-project-001/_build/latest?definitionId=17&branchName=master)
