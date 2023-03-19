@@ -12,9 +12,9 @@
     <Compile Remove="00.Utilities\JsonHelper.03.cs" />
     <Compile Remove="00.Utilities\JsonHelper.04.cs" />
     <Compile Remove="00.Utilities\JsonHelper.05.cs" />
-    <Compile Remove="JTokenModelBinders\JsonNodeModelBinderProvider.old.cs" />
-    <Compile Remove="JTokenModelBinders\JTokenModelBinderProvider.NET.Core.Standard.cs" />
-    <Compile Remove="JTokenModelBinders\JTokenWebHelper.NET.Core.Standard.cs" />
+    <Compile Remove="JsonModelBinders\JsonNodeModelBinderProvider.old.cs" />
+    <Compile Remove="JsonModelBinders\JTokenModelBinderProvider.NET.Core.Standard.cs" />
+    <Compile Remove="JsonModelBinders\JTokenWebHelper.NET.Core.Standard.cs" />
   </ItemGroup>
 
   <ItemGroup>
