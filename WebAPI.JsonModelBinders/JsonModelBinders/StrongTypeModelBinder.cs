@@ -7,7 +7,7 @@ public class StrongTypeModelBinder<T> : JsonNodeModelBinder
 {
     public override Task BindModelAsync(ModelBindingContext bindingContext)
     {
-        var jsonNode = base.GetJsonModelBindingResult(bindingContext);
+        var jsonNode = GetJsonModelBindingResult(bindingContext);
         var json = jsonNode.ToJsonString();
         var result = JsonSerializer.Deserialize<T>(json);
         bindingContext
