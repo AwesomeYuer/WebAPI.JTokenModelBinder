@@ -1,5 +1,15 @@
 # WebAPI JsonModelBinders
 
+## JTokenModelBinder
+```
+Newtonsoft.Json.Linq.JToken
+```
+
+## JsonNodeModelBinder
+```
+System.Text.Json.Nodes.JsonNode
+```
+
 ## 以下说明由 `ChatGPT` 生成
 
 Web API JsonModelBinders是为了帮助开发人员轻松在API控制器中传递JSON作为参数或结果而创建的。可用的JsonModelBinder类型有JTokenModelBinders、Newtonsoft.Json.Linq.JToken和System.Text.Json.Nodes.JsonNode，它们可以帮助开发人员使用JsonNode、JToken或JObject作为参数。开发人员可以在API控制器中定义具有带有ModelBinder特性（接受JsonNode类型的参数）的EchoJsonNode方法，然后返回JsonNode参数以显示结果。要测试此技术，可以使用.http文件，例如WebAPI.JTokenModelBinder / VSCode.Rest.Client.Test / RestClientTest.http。
@@ -72,7 +82,7 @@ Web API JsonModelBinders provide an easy way for developers to pass JSON as para
     POST  https://localhost:7095/api/admin/echo/jsonnode/async/aaa?a=10 HTTP/1.1
     content-type: application/json
 
-    {"a":9999,"b":[1,2,3,5]}
+    {"a":9999,"b":[1,2,3,5] }
 
     ###
     PUT  https://localhost:7095/api/admin/echo/jsonnode?a=111&b=2 HTTP/1.1
@@ -92,18 +102,6 @@ Web API JsonModelBinders provide an easy way for developers to pass JSON as para
 
 
     ```
-
-
-
-## JTokenModelBinders
-```
-Newtonsoft.Json.Linq.JToken
-```
-
-## JsonNodeModelBinders
-```
-System.Text.Json.Nodes.JsonNode
-```
 
 ## Usage Sample code:
 
