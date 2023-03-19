@@ -29,7 +29,8 @@ Web API JsonModelBinders provide an easy way for developers to pass JSON as para
         [HttpPost]
         [HttpPut]
     ```
-* Support json and url encode query string and form body
+
+* Support json and url encoded query string or form body
     ```http
     ###
     GET  https://localhost:7095/api/admin/echo/jsonnode/asdasd?a=111&b=2&a=a222 HTTP/1.1
