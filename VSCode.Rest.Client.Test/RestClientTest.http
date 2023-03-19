@@ -9,16 +9,31 @@ GET  https://localhost:7095/api/admin/echo/jsonnode/async/asdasd?a=111&b=2&a=a22
 GET  https://localhost:7095/api/admin/strongtype?a=111&b=2&a=a222 HTTP/1.1
 
 ###
-POST  https://localhost:7095/api/admin/strongtype?a=111&b=2&a=a222 HTTP/1.1
+POST  https://localhost:7095/api/admin/strongtype/jtokenparse?a=111&b=2&a=a222 HTTP/1.1
 
 {
+    /* aaa */
     "a" : [ "1111" ]
     , "b" : "2222"
     , "c" : 333
-    , "d" : null
-    , "e" : { "a": 111 }
-    , "f" : [{}]
+     , "d" : {"a": 1}
+    , "e" : { "c": 1112 }
+    , "g" :  [ {"a": 1 }, {"b": 2, "c": 3}]
+   
 }
+
+###
+POST  https://localhost:7095/api/admin/strongtype/jsonnodeparse?a=111&b=2&a=a222 HTTP/1.1
+
+{
+    "a" : [ "1111" ],
+    "b" : "2222", /* asd */
+    "c" : 333,
+    "d" : {"a": 1},
+    "f" : [ {"a": 1 }, {"b": 2, "c": 3}],
+
+}
+
 
 ###
 # ok

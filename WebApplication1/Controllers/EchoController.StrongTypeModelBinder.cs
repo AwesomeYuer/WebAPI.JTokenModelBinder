@@ -4,6 +4,7 @@ using Microshaoft;
 using Microshaoft.Web;
 using Microshaoft.WebApi.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.Text.Json.Nodes;
 
 public class Foo
@@ -13,11 +14,13 @@ public class Foo
 
     public int c { set; get; }
 
-    public JsonNode? d { set; get; }
+    public JsonObject? d { set; get; } //= new JsonObject();
 
-    public JsonNode? e { set; get; }
+    public JObject? e { set; get; } //= new JObject();
 
     public JsonArray? f { set; get; }
+
+    public JArray? g { set; get; }
 
 }
 
@@ -36,10 +39,47 @@ public partial class AdminController : ControllerBase
     [HttpPatch]
     [HttpPost]
     [HttpPut]
-    [Route("StrongType")]
-    public ActionResult StrongTypeParametersModelBinder
+    [Route("StrongType/JTokenParse")]
+    public ActionResult JTokenParseStrongTypeParameters
                             (
-                                [ModelBinder(typeof(StrongTypeModelBinder<Foo>))]
+                                [ModelBinder(typeof(JTokenStrongTypeModelBinder<Foo>))]
+                                Foo
+                                    parameters
+                            )
+    {
+
+        var (callerMemberName, callerFilePath, callerLineNumber) = CallerHelper.GetCallerInfo();
+
+        return
+            Request
+                .EchoJsonRequestJsonResult
+                    (
+                        parameters
+                        , new
+                        {
+                            Caller = new
+                            {
+                                callerMemberName
+                                ,
+                                callerFilePath
+                                ,
+                                callerLineNumber
+                            }
+                        }
+                    );
+
+    }
+    [HttpDelete]
+    [HttpGet]
+    [HttpHead]
+    [HttpOptions]
+    [HttpPatch]
+    [HttpPost]
+    [HttpPut]
+    [Route("StrongType/JsonNodeParse")]
+    public ActionResult JsonNodeParseStrongTypeParameters
+                            (
+                                [ModelBinder(typeof(JsonNodeStrongTypeModelBinder<Foo>))]
                                 Foo
                                     parameters
                             )
