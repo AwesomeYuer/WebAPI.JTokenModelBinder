@@ -11,7 +11,7 @@ public class JTokenModelBinder : JsonModelBinder<JToken>, IModelBinder
         return JToken.Parse(json)!;
     }
 
-    public override JToken OnReturnProcessFunc(IEnumerable<KeyValuePair<string, StringValues>> keyValuePairs)
+    public override JToken OnKeyValuePairsProcessFunc(IEnumerable<KeyValuePair<string, StringValues>> keyValuePairs)
     {
         return
              JsonWebHelper

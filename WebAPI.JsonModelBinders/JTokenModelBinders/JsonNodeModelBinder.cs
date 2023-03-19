@@ -16,7 +16,7 @@ public class JsonNodeModelBinder : JsonModelBinder<JsonNode> ,IModelBinder
         return JsonNode.Parse(json)!;
     }
 
-    public override JsonNode OnReturnProcessFunc(IEnumerable<KeyValuePair<string, StringValues>> keyValuePairs)
+    public override JsonNode OnKeyValuePairsProcessFunc(IEnumerable<KeyValuePair<string, StringValues>> keyValuePairs)
     {
         return
              JsonWebHelper

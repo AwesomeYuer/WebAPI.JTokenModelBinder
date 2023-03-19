@@ -136,7 +136,7 @@ public static class JsonWebHelper
                                                 JToken jToken = null!;
                                                 if (x.Value.Count > 1)
                                                 {
-                                                    jToken = new JArray(x.Value);
+                                                    jToken = new JArray(x.Value!);
                                                 }
                                                 else
                                                 {
